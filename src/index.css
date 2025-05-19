@@ -1,4 +1,38 @@
 body {
   margin: 0;
   padding: 0;
+  background-color: rgb(15,15,15);
+
+
+}.responsive-scale-wrapper {
+  transform-origin: top center;
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Small mobile */
+@media (max-width: 400px) {
+  .responsive-scale-wrapper {
+    transform: scale(0.75);
+  }
+}
+
+/* Medium mobile */
+@media (min-width: 401px) and (max-width: 600px) {
+  .responsive-scale-wrapper {
+    transform: scale(0.7);
+  }
+}
+
+/* Tablets */
+@media (min-width: 601px) and (max-width: 768px) {
+  .responsive-scale-wrapper {
+    transform: scale(0.75);
+  }
+}
+
+/* Default (desktop and above) */
+@media (min-width: 769px) {
+  .responsive-scale-wrapper {
+    transform: scale(.8);
+  }
 }

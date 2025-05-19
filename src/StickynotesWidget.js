@@ -106,7 +106,8 @@ const StickyNotesWidget = () => {
   };
 
   return (
-    
+      <div className="responsive-scale-wrapper">
+
     <div style={{
       backgroundColor: '#0f0f0f',
       fontFamily: "'Segoe UI', sans-serif",
@@ -379,6 +380,7 @@ const StickyNotesWidget = () => {
           &#x21bb; Refresh
         </button>
       </div>
+    </div>
     </div>
   );
 };
