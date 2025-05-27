@@ -5,6 +5,7 @@ const StickyNotesWidget = () => {
   const [authorsData, setAuthorsData] = useState([]);
   const [currentSort, setCurrentSort] = useState('author-asc');
   const [widgetSize, setWidgetSize] = useState('medium');
+  const [isHovered, setIsHovered] = useState(null);
 
   const names = [
     "Yury Zeliankouski",
@@ -69,12 +70,12 @@ const StickyNotesWidget = () => {
 
   const getWidgetWidth = () => {
     switch (widgetSize) {
-      case "small": return 220;
-      case "medium": return 320;
-      case "large": return 400;
-      case "xlarge": return 480;
-      case "huge": return 560;
-      default: return 320;
+      case "small": return 260;
+      case "medium": return 340;
+      case "large": return 420;
+      case "xlarge": return 500;
+      case "huge": return 580;
+      default: return 340;
     }
   };
 
@@ -89,75 +90,61 @@ const StickyNotesWidget = () => {
   const sortedData = applySorting();
   const totalCount = sortedData.reduce((sum, item) => sum + item.count, 0);
 
-  const selectStyle = {
-    backgroundColor: 'transparent',
-    color: 'white',
-    border: 'none',
-    padding: '4px',
-    fontSize: '0.8rem',
-    cursor: 'pointer',
-    width: '90%',
-    height: '100%',
-    textAlign: 'center',
-    appearance: 'none',
-    WebkitAppearance: 'none',
-    textAlignLast: 'center',
-    borderRadius: '8px',
-  };
-
   return (
-      <div className="responsive-scale-wrapper">
-
     <div style={{
-      backgroundColor: '#0f0f0f',
-      fontFamily: "'Segoe UI', sans-serif",
+      background: 'radial-gradient(circle at center, #1a1a1a 0%, #0a0a0a 100%)',
+      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
-      height: '100vh'
+      minHeight: '100vh',
+      padding: '20px'
     }}>
-      <div className="control-bar" style={{
+      {/* Control Bar */}
+      <div style={{
         display: 'flex',
         justifyContent: 'space-between',
-        backgroundColor: '#1e1e1e',
-        borderRadius: '12px',
-        marginBottom: '10px',
+        background: 'linear-gradient(145deg, #222222, #1a1a1a)',
+        borderRadius: '14px',
+        marginBottom: '20px',
         alignItems: 'center',
-        boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+        boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
         width: `${getControlBarWidth()}px`,
-        overflowX: 'auto',
-        padding: '8px 0'
+        padding: '10px 20px',
+        gap: '12px',
+        border: '1px solid rgba(255,255,255,0.05)'
       }}>
-        {/* Combined author sort buttons */}
+        {/* Sort Controls */}
         <div style={{
           display: 'flex',
-          flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
-           gap: widgetSize === 'small' ? '4px' : 
-       widgetSize === 'medium' ? '6px' :
-       widgetSize === 'large' ? '8px' :
-       widgetSize === 'xlarge' ? '10px' : '12px'
+          gap: '8px',
+          alignItems: 'center'
         }}>
           <button 
             title="Sort A-Z" 
             onClick={() => setSort('author-asc')} 
             style={{
-              backgroundColor: 'transparent',
+              background: currentSort === 'author-asc' 
+                ? 'linear-gradient(145deg, #3a3a3a, #2a2a2a)' 
+                : 'transparent',
               color: 'white',
               border: 'none',
-              padding: '4px',
-              fontSize: '0.8rem',
+              padding: '8px',
+              borderRadius: '10px',
               cursor: 'pointer',
-              height: '100%',
-              textAlign: 'center',
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'center'
+              justifyContent: 'center',
+              transition: 'all 0.3s ease',
+              boxShadow: currentSort === 'author-asc' ? '0 4px 8px rgba(0,0,0,0.2)' : 'none',
+              ':hover': {
+                background: 'linear-gradient(145deg, #3a3a3a, #2a2a2a)',
+                transform: 'translateY(-1px)'
+              }
             }}
           >
-<div style={{ display: 'flex', alignItems: 'center', margin: '0 6px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', margin: '0 6px' }}>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="12" y1="19" x2="12" y2="5" />
                 <polyline points="18 11 12 5 6 11" />
@@ -173,20 +160,26 @@ const StickyNotesWidget = () => {
             title="Sort Z-A" 
             onClick={() => setSort('author-desc')} 
             style={{
-              backgroundColor: 'transparent',
+              background: currentSort === 'author-desc' 
+                ? 'linear-gradient(145deg, #3a3a3a, #2a2a2a)' 
+                : 'transparent',
               color: 'white',
               border: 'none',
-              padding: '4px',
-              fontSize: '0.8rem',
+              padding: '8px',
+              borderRadius: '10px',
               cursor: 'pointer',
-              height: '100%',
-              textAlign: 'center',
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'center'
+              justifyContent: 'center',
+              transition: 'all 0.3s ease',
+              boxShadow: currentSort === 'author-desc' ? '0 4px 8px rgba(0,0,0,0.2)' : 'none',
+              ':hover': {
+                background: 'linear-gradient(145deg, #3a3a3a, #2a2a2a)',
+                transform: 'translateY(-1px)'
+              }
             }}
           >
-<div style={{ display: 'flex', alignItems: 'center', margin: '0 6px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', margin: '0 6px' }}>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="12" y1="5" x2="12" y2="19" />
                 <polyline points="6 13 12 19 18 13" />
@@ -197,35 +190,34 @@ const StickyNotesWidget = () => {
               </div>
             </div>
           </button>
-        </div>
-
-        {/* Combined count sort buttons */}
-        <div style={{
-          display: 'flex',
-          flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
-          borderLeft: '1px solid #444',
-          gap: widgetSize === 'small' ? '4px' : 
-       widgetSize === 'medium' ? '6px' :
-       widgetSize === 'large' ? '8px' :
-       widgetSize === 'xlarge' ? '10px' : '12px'
-        }}>
+          
+          <div style={{ 
+            height: '24px', 
+            width: '1px', 
+            background: 'linear-gradient(to bottom, transparent, rgba(255,255,255,0.1), transparent)' 
+          }}></div>
+          
           <button 
             title="Sort Count Asc" 
             onClick={() => setSort('count-asc')} 
             style={{
-              backgroundColor: 'transparent',
+              background: currentSort === 'count-asc' 
+                ? 'linear-gradient(145deg, #3a3a3a, #2a2a2a)' 
+                : 'transparent',
               color: 'white',
               border: 'none',
-              padding: '4px',
-              fontSize: '0.8rem',
+              padding: '8px',
+              borderRadius: '10px',
               cursor: 'pointer',
-              height: '100%',
-              textAlign: 'center',
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'center'
+              justifyContent: 'center',
+              transition: 'all 0.3s ease',
+              boxShadow: currentSort === 'count-asc' ? '0 4px 8px rgba(0,0,0,0.2)' : 'none',
+              ':hover': {
+                background: 'linear-gradient(145deg, #3a3a3a, #2a2a2a)',
+                transform: 'translateY(-1px)'
+              }
             }}
           >
             <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
@@ -241,17 +233,23 @@ const StickyNotesWidget = () => {
             title="Sort Count Desc" 
             onClick={() => setSort('count-desc')} 
             style={{
-              backgroundColor: 'transparent',
+              background: currentSort === 'count-desc' 
+                ? 'linear-gradient(145deg, #3a3a3a, #2a2a2a)' 
+                : 'transparent',
               color: 'white',
               border: 'none',
-              padding: '4px',
-              fontSize: '0.8rem',
+              padding: '8px',
+              borderRadius: '10px',
               cursor: 'pointer',
-              height: '100%',
-              textAlign: 'center',
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'center'
+              justifyContent: 'center',
+              transition: 'all 0.3s ease',
+              boxShadow: currentSort === 'count-desc' ? '0 4px 8px rgba(0,0,0,0.2)' : 'none',
+              ':hover': {
+                background: 'linear-gradient(145deg, #3a3a3a, #2a2a2a)',
+                transform: 'translateY(-1px)'
+              }
             }}
           >
             <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
@@ -264,123 +262,273 @@ const StickyNotesWidget = () => {
           </button>
         </div>
 
-        {/* Export CSV button */}
+        {/* Export and Size Controls */}
         <div style={{
-          flex: 1,
           display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          borderLeft: '1px solid #444',
-          height: '100%'
+          gap: '8px',
+          alignItems: 'center'
         }}>
           <button 
             title="Export CSV" 
             onClick={exportToCSV} 
             style={{
-              backgroundColor: 'transparent',
+              background: 'linear-gradient(145deg, #2a2a2a, #1a1a1a)',
               color: 'white',
-              border: 'none',
-              padding: '4px',
-              fontSize: '0.8rem',
+              border: '1px solid rgba(255,255,255,0.1)',
+              padding: '8px 16px',
+              borderRadius: '10px',
               cursor: 'pointer',
-              width: '100%',
-              height: '100%',
-              textAlign: 'center'
-            }}
-          >
-            <div style={{
-              padding: '6px 8px',
-              backgroundColor: 'transparent',
-              borderRadius: '8px',
               fontSize: '0.75rem',
               fontWeight: '500',
-              fontFamily: 'Inter, sans-serif',
-              color: 'white',
-              border: '1px solid #444',
-              letterSpacing: '0.5px'
-            }}>
-              CSV
-            </div>
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              transition: 'all 0.3s ease',
+              boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+              ':hover': {
+                background: 'linear-gradient(145deg, #3a3a3a, #2a2a2a)',
+                transform: 'translateY(-1px)',
+                boxShadow: '0 4px 8px rgba(0,0,0,0.2)'
+              }
+            }}
+          >
+            <span>CSV</span>
           </button>
-        </div>
-
-        {/* Size selector */}
-        <div style={{
-          flex: 1,
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          borderLeft: '1px solid #444',
-          height: '100%',
-          position: 'relative'
-        }}>
+          
           <select 
             id="size-select" 
             title="Widget Size" 
             value={widgetSize}
             onChange={(e) => adjustSize(e.target.value)}
-            style={selectStyle}
+            style={{
+              background: 'linear-gradient(145deg, #2a2a2a, #1a1a1a)',
+              color: 'white',
+              border: '1px solid rgba(255,255,255,0.1)',
+              padding: '8px 16px',
+              borderRadius: '10px',
+              fontSize: '0.75rem',
+              cursor: 'pointer',
+              fontWeight: '500',
+              appearance: 'none',
+              WebkitAppearance: 'none',
+              outline: 'none',
+              boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+              transition: 'all 0.3s ease',
+              ':hover': {
+                background: 'linear-gradient(145deg, #3a3a3a, #2a2a2a)',
+                transform: 'translateY(-1px)',
+                boxShadow: '0 4px 8px rgba(0,0,0,0.2)'
+              }
+            }}
           >
-            <option value="small" style={{ backgroundColor: '#1e1e1e' }}>Small</option>
-            <option value="medium" style={{ backgroundColor: '#1e1e1e' }}>Medium</option>
-            <option value="large" style={{ backgroundColor: '#1e1e1e' }}>Large</option>
-            <option value="xlarge" style={{ backgroundColor: '#1e1e1e' }}>Extra Large</option>
-            <option value="huge" style={{ backgroundColor: '#1e1e1e' }}>Huge</option>
+            <option value="small" style={{ background: '#2a2a2a' }}>Small</option>
+            <option value="medium" style={{ background: '#2a2a2a' }}>Medium</option>
+            <option value="large" style={{ background: '#2a2a2a' }}>Large</option>
+            <option value="xlarge" style={{ background: '#2a2a2a' }}>XL</option>
+            <option value="huge" style={{ background: '#2a2a2a' }}>XXL</option>
           </select>
         </div>
       </div>
 
-      <div className="widget" style={{
-        backgroundColor: '#1e1e1e',
+      {/* Widget */}
+      <div style={{
+        background: 'linear-gradient(145deg, #222222, #1a1a1a)',
         color: 'white',
         borderRadius: '16px',
-        padding: '24px',
+        padding: '28px',
         width: `${getWidgetWidth()}px`,
-        boxShadow: '0 4px 16px rgba(0, 0, 0, 0.4)',
-        transition: 'width 0.3s ease'
+        boxShadow: '0 12px 40px rgba(0, 0, 0, 0.3)',
+        transition: 'all 0.3s ease',
+        border: '1px solid rgba(255,255,255,0.05)',
+        position: 'relative',
+        overflow: 'hidden',
+        ':before': {
+          content: '""',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          height: '4px',
+          background: 'linear-gradient(90deg, #4f46e5, #a855f7, #ec4899)',
+          zIndex: 1
+        }
       }}>
-        <h2 style={{ fontSize: '1.2rem', marginBottom: '20px' }}>How many Sticky Notes?</h2>
-        <table className="list" style={{ borderCollapse: 'collapse', width: '100%' }}>
-          <thead>
-            <tr>
-              <th style={{ textAlign: 'left' }}>Authors</th>
-              <th style={{ textAlign: 'right' }}>Count</th>
-            </tr>
-          </thead>
-          <tbody id="notes-list">
+        <h2 style={{ 
+          fontSize: '1.3rem', 
+          marginBottom: '24px',
+          fontWeight: '600',
+          color: '#fff',
+          position: 'relative',
+          paddingBottom: '12px',
+          ':after': {
+            content: '""',
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            width: '40px',
+            height: '3px',
+            background: 'linear-gradient(90deg, #4f46e5, transparent)',
+            borderRadius: '3px'
+          }
+        }}>How many Sticky Notes?</h2>
+        
+        <div style={{ 
+          marginBottom: '20px',
+          borderBottom: '1px solid rgba(255,255,255,0.05)',
+          paddingBottom: '16px'
+        }}>
+          <div style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            marginBottom: '16px',
+            fontWeight: '500',
+            color: 'rgba(255,255,255,0.6)',
+            fontSize: '0.85rem',
+            padding: '0 4px',
+            textTransform: 'uppercase',
+            letterSpacing: '0.5px'
+          }}>
+            <span>Authors</span>
+            <span>Count</span>
+          </div>
+          
+          <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '12px'
+          }}>
             {sortedData.map((item, index) => (
-              <tr key={index}>
-                <td style={{ padding: '6px 0', textAlign: 'left', fontSize: '0.95rem' }}>{item.name}</td>
-                <td style={{ padding: '6px 0', textAlign: 'right', fontSize: '0.95rem' }}>{item.count}</td>
-              </tr>
+              <div 
+                key={index} 
+                onMouseEnter={() => setIsHovered(index)}
+                onMouseLeave={() => setIsHovered(null)}
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  padding: '12px',
+                  borderRadius: '10px',
+                  transition: 'all 0.3s ease',
+                  background: isHovered === index 
+                    ? 'linear-gradient(90deg, rgba(79,70,229,0.1), transparent)' 
+                    : 'transparent',
+                  position: 'relative',
+                  overflow: 'hidden',
+                  ':before': {
+                    content: '""',
+                    position: 'absolute',
+                    left: 0,
+                    top: 0,
+                    bottom: 0,
+                    width: isHovered === index ? '4px' : '0',
+                    background: 'linear-gradient(to bottom, #4f46e5, #a855f7)',
+                    transition: 'all 0.3s ease'
+                  }
+                }}
+              >
+                <span style={{ 
+                  fontSize: '0.95rem',
+                  fontWeight: '500',
+                  color: '#fff',
+                  position: 'relative',
+                  zIndex: 1
+                }}>{item.name}</span>
+                <span style={{ 
+                  fontSize: '0.95rem',
+                  color: 'rgba(255,255,255,0.8)',
+                  position: 'relative',
+                  zIndex: 1
+                }}>{item.count}</span>
+              </div>
             ))}
-          </tbody>
-        </table>
-        <div className="separator" style={{ borderTop: '1px solid #444', margin: '12px 0' }}></div>
-        <div className="total" style={{ textAlign: 'right', fontWeight: 'bold' }}>Total: {totalCount}</div>
+          </div>
+        </div>
+        
+        <div style={{ 
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          marginBottom: '24px',
+          padding: '12px',
+          borderRadius: '10px',
+          background: 'rgba(255,255,255,0.03)',
+          border: '1px solid rgba(255,255,255,0.05)'
+        }}>
+          <span style={{ 
+            fontSize: '0.9rem',
+            color: 'rgba(255,255,255,0.7)'
+          }}>Total</span>
+          <span style={{ 
+            fontSize: '1.2rem',
+            fontWeight: '600',
+            color: '#fff',
+            background: 'linear-gradient(90deg, #4f46e5, #a855f7)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent'
+          }}>{totalCount}</span>
+        </div>
+        
         <button 
-          className="refresh-btn" 
           onClick={refreshData}
           style={{
-            marginTop: '16px',
             width: '100%',
-            backgroundColor: '#a259ff',
+            background: 'linear-gradient(90deg, #4f46e5, #7c3aed)',
             border: 'none',
             color: 'white',
-            padding: '12px',
-            fontSize: '1rem',
+            padding: '14px',
+            fontSize: '0.95rem',
             borderRadius: '12px',
             cursor: 'pointer',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            gap: '8px'
+            gap: '8px',
+            fontWeight: '500',
+            transition: 'all 0.3s ease',
+            boxShadow: '0 4px 14px rgba(79, 70, 229, 0.3)',
+            position: 'relative',
+            overflow: 'hidden',
+            ':hover': {
+              transform: 'translateY(-2px)',
+              boxShadow: '0 6px 20px rgba(79, 70, 229, 0.4)',
+              background: 'linear-gradient(90deg, #4f46e5, #8b5cf6)'
+            },
+            ':after': {
+              content: '""',
+              position: 'absolute',
+              top: '-50%',
+              left: '-50%',
+              width: '200%',
+              height: '200%',
+              background: 'linear-gradient(transparent, rgba(255,255,255,0.1), transparent)',
+              transform: 'rotate(30deg)',
+              transition: 'all 0.3s ease'
+            },
+            ':hover:after': {
+              left: '100%'
+            }
           }}
         >
-          &#x21bb; Refresh
+          <svg 
+            width="18" 
+            height="18" 
+            viewBox="0 0 24 24" 
+            fill="none" 
+            stroke="currentColor" 
+            strokeWidth="2" 
+            strokeLinecap="round" 
+            strokeLinejoin="round"
+            style={{
+              transition: 'transform 0.5s ease'
+            }}
+          >
+            <polyline points="23 4 23 10 17 10"></polyline>
+            <polyline points="1 20 1 14 7 14"></polyline>
+            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+          </svg>
+          Refresh Data
         </button>
       </div>
-    </div>
     </div>
   );
 };
