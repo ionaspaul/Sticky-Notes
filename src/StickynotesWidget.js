@@ -70,7 +70,7 @@ const StickyNotesWidget = () => {
 
   const getWidgetWidth = () => {
     switch (widgetSize) {
-      case "small": return 260;
+      case "small": return 280;  // Increased from 260 to prevent overflow
       case "medium": return 340;
       case "large": return 420;
       case "xlarge": return 500;
@@ -80,7 +80,15 @@ const StickyNotesWidget = () => {
   };
 
   const getControlBarWidth = () => {
-    return getWidgetWidth() + 40;
+    return getWidgetWidth();
+  };
+
+  const getButtonSize = () => {
+    return widgetSize === 'small' ? '0.7rem' : '0.75rem';
+  };
+
+  const getIconSize = () => {
+    return widgetSize === 'small' ? '20' : '25';
   };
 
   useEffect(() => {
@@ -101,25 +109,28 @@ const StickyNotesWidget = () => {
       minHeight: '100vh',
       padding: '20px'
     }}>
-      {/* Control Bar */}
+      {/* Control Bar - Updated layout */}
       <div style={{
         display: 'flex',
-        justifyContent: 'space-between',
+        flexWrap: 'wrap', // Allow wrapping on small screens
+        justifyContent: 'center',
         background: 'linear-gradient(145deg, #222222, #1a1a1a)',
         borderRadius: '14px',
         marginBottom: '20px',
         alignItems: 'center',
         boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
         width: `${getControlBarWidth()}px`,
-        padding: '10px 20px',
-        gap: '12px',
+        padding: '10px',
+        gap: '8px',
         border: '1px solid rgba(255,255,255,0.05)'
       }}>
-        {/* Sort Controls */}
+        {/* Sort Controls - Made more compact */}
         <div style={{
           display: 'flex',
-          gap: '8px',
-          alignItems: 'center'
+          gap: '4px',
+          alignItems: 'center',
+          flexWrap: 'wrap',
+          justifyContent: 'center'
         }}>
           <button 
             title="Sort A-Z" 
@@ -130,28 +141,36 @@ const StickyNotesWidget = () => {
                 : 'transparent',
               color: 'white',
               border: 'none',
-              padding: '8px',
-              borderRadius: '10px',
+              padding: '6px',
+              borderRadius: '8px',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               transition: 'all 0.3s ease',
               boxShadow: currentSort === 'author-asc' ? '0 4px 8px rgba(0,0,0,0.2)' : 'none',
+              minWidth: widgetSize === 'small' ? '60px' : 'auto',
               ':hover': {
                 background: 'linear-gradient(145deg, #3a3a3a, #2a2a2a)',
                 transform: 'translateY(-1px)'
               }
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', margin: '0 6px' }}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <div style={{ display: 'flex', alignItems: 'center', margin: '0 4px' }}>
+              <svg width={widgetSize === 'small' ? '14' : '16'} height={widgetSize === 'small' ? '14' : '16'} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="12" y1="19" x2="12" y2="5" />
                 <polyline points="18 11 12 5 6 11" />
               </svg>
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', lineHeight: '1', gap: "3px"}}>
-                <span style={{ fontSize: '0.6rem', color: 'white' }}>A</span>
-                <span style={{ fontSize: '0.6rem', color: 'white' }}>Z</span>
+              <div style={{ 
+                display: 'flex', 
+                flexDirection: 'column', 
+                alignItems: 'center', 
+                lineHeight: '1', 
+                gap: "2px",
+                marginLeft: widgetSize === 'small' ? '2px' : '4px'
+              }}>
+                <span style={{ fontSize: '0.55rem', color: 'white' }}>A</span>
+                <span style={{ fontSize: '0.55rem', color: 'white' }}>Z</span>
               </div>
             </div>
           </button>
@@ -165,28 +184,36 @@ const StickyNotesWidget = () => {
                 : 'transparent',
               color: 'white',
               border: 'none',
-              padding: '8px',
-              borderRadius: '10px',
+              padding: '6px',
+              borderRadius: '8px',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               transition: 'all 0.3s ease',
               boxShadow: currentSort === 'author-desc' ? '0 4px 8px rgba(0,0,0,0.2)' : 'none',
+              minWidth: widgetSize === 'small' ? '60px' : 'auto',
               ':hover': {
                 background: 'linear-gradient(145deg, #3a3a3a, #2a2a2a)',
                 transform: 'translateY(-1px)'
               }
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', margin: '0 6px' }}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <div style={{ display: 'flex', alignItems: 'center', margin: '0 4px' }}>
+              <svg width={widgetSize === 'small' ? '14' : '16'} height={widgetSize === 'small' ? '14' : '16'} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="12" y1="5" x2="12" y2="19" />
                 <polyline points="6 13 12 19 18 13" />
               </svg>
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', lineHeight: '1', gap: "3px"}}>
-                <span style={{ fontSize: '0.6rem', color: 'white' }}>Z</span>
-                <span style={{ fontSize: '0.6rem', color: 'white' }}>A</span>
+              <div style={{ 
+                display: 'flex', 
+                flexDirection: 'column', 
+                alignItems: 'center', 
+                lineHeight: '1', 
+                gap: "2px",
+                marginLeft: widgetSize === 'small' ? '2px' : '4px'
+              }}>
+                <span style={{ fontSize: '0.55rem', color: 'white' }}>Z</span>
+                <span style={{ fontSize: '0.55rem', color: 'white' }}>A</span>
               </div>
             </div>
           </button>
@@ -206,21 +233,22 @@ const StickyNotesWidget = () => {
                 : 'transparent',
               color: 'white',
               border: 'none',
-              padding: '8px',
-              borderRadius: '10px',
+              padding: '6px',
+              borderRadius: '8px',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               transition: 'all 0.3s ease',
               boxShadow: currentSort === 'count-asc' ? '0 4px 8px rgba(0,0,0,0.2)' : 'none',
+              minWidth: widgetSize === 'small' ? '40px' : 'auto',
               ':hover': {
                 background: 'linear-gradient(145deg, #3a3a3a, #2a2a2a)',
                 transform: 'translateY(-1px)'
               }
             }}
           >
-            <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+            <svg width={getIconSize()} height={getIconSize()} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
               <line x1="6" y1="17" x2="6" y2="7" />
               <polyline points="3 10 6 7 9 10" />
               <line x1="18" y1="12" x2="14" y2="12" />
@@ -238,21 +266,22 @@ const StickyNotesWidget = () => {
                 : 'transparent',
               color: 'white',
               border: 'none',
-              padding: '8px',
-              borderRadius: '10px',
+              padding: '6px',
+              borderRadius: '8px',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               transition: 'all 0.3s ease',
               boxShadow: currentSort === 'count-desc' ? '0 4px 8px rgba(0,0,0,0.2)' : 'none',
+              minWidth: widgetSize === 'small' ? '40px' : 'auto',
               ':hover': {
                 background: 'linear-gradient(145deg, #3a3a3a, #2a2a2a)',
                 transform: 'translateY(-1px)'
               }
             }}
           >
-            <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+            <svg width={getIconSize()} height={getIconSize()} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
               <line x1="6" y1="7" x2="6" y2="17" />
               <polyline points="3 14 6 17 9 14" />
               <line x1="20" y1="8"  x2="14" y2="8"  />
@@ -262,10 +291,10 @@ const StickyNotesWidget = () => {
           </button>
         </div>
 
-        {/* Export and Size Controls */}
+        {/* Export and Size Controls - Made more compact */}
         <div style={{
           display: 'flex',
-          gap: '8px',
+          gap: '6px',
           alignItems: 'center'
         }}>
           <button 
@@ -275,16 +304,17 @@ const StickyNotesWidget = () => {
               background: 'linear-gradient(145deg, #2a2a2a, #1a1a1a)',
               color: 'white',
               border: '1px solid rgba(255,255,255,0.1)',
-              padding: '8px 16px',
-              borderRadius: '10px',
+              padding: widgetSize === 'small' ? '6px 10px' : '8px 12px',
+              borderRadius: '8px',
               cursor: 'pointer',
-              fontSize: '0.75rem',
+              fontSize: getButtonSize(),
               fontWeight: '500',
               display: 'flex',
               alignItems: 'center',
-              gap: '6px',
+              gap: '4px',
               transition: 'all 0.3s ease',
               boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+              minWidth: widgetSize === 'small' ? '60px' : 'auto',
               ':hover': {
                 background: 'linear-gradient(145deg, #3a3a3a, #2a2a2a)',
                 transform: 'translateY(-1px)',
@@ -292,7 +322,7 @@ const StickyNotesWidget = () => {
               }
             }}
           >
-            <span>CSV</span>
+            CSV
           </button>
           
           <select 
@@ -304,9 +334,9 @@ const StickyNotesWidget = () => {
               background: 'linear-gradient(145deg, #2a2a2a, #1a1a1a)',
               color: 'white',
               border: '1px solid rgba(255,255,255,0.1)',
-              padding: '8px 16px',
-              borderRadius: '10px',
-              fontSize: '0.75rem',
+              padding: widgetSize === 'small' ? '6px 10px' : '8px 12px',
+              borderRadius: '8px',
+              fontSize: getButtonSize(),
               cursor: 'pointer',
               fontWeight: '500',
               appearance: 'none',
@@ -314,6 +344,7 @@ const StickyNotesWidget = () => {
               outline: 'none',
               boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
               transition: 'all 0.3s ease',
+              minWidth: widgetSize === 'small' ? '80px' : 'auto',
               ':hover': {
                 background: 'linear-gradient(145deg, #3a3a3a, #2a2a2a)',
                 transform: 'translateY(-1px)',
@@ -335,7 +366,7 @@ const StickyNotesWidget = () => {
         background: 'linear-gradient(145deg, #222222, #1a1a1a)',
         color: 'white',
         borderRadius: '16px',
-        padding: '28px',
+        padding: widgetSize === 'small' ? '20px' : '24px',
         width: `${getWidgetWidth()}px`,
         boxShadow: '0 12px 40px rgba(0, 0, 0, 0.3)',
         transition: 'all 0.3s ease',
@@ -354,8 +385,8 @@ const StickyNotesWidget = () => {
         }
       }}>
         <h2 style={{ 
-          fontSize: '1.3rem', 
-          marginBottom: '24px',
+          fontSize: widgetSize === 'small' ? '1.1rem' : '1.3rem', 
+          marginBottom: widgetSize === 'small' ? '16px' : '24px',
           fontWeight: '600',
           color: '#fff',
           position: 'relative',
@@ -373,17 +404,17 @@ const StickyNotesWidget = () => {
         }}>How many Sticky Notes?</h2>
         
         <div style={{ 
-          marginBottom: '20px',
+          marginBottom: widgetSize === 'small' ? '16px' : '20px',
           borderBottom: '1px solid rgba(255,255,255,0.05)',
-          paddingBottom: '16px'
+          paddingBottom: widgetSize === 'small' ? '12px' : '16px'
         }}>
           <div style={{
             display: 'flex',
             justifyContent: 'space-between',
-            marginBottom: '16px',
+            marginBottom: widgetSize === 'small' ? '12px' : '16px',
             fontWeight: '500',
             color: 'rgba(255,255,255,0.6)',
-            fontSize: '0.85rem',
+            fontSize: widgetSize === 'small' ? '0.8rem' : '0.85rem',
             padding: '0 4px',
             textTransform: 'uppercase',
             letterSpacing: '0.5px'
@@ -395,7 +426,7 @@ const StickyNotesWidget = () => {
           <div style={{
             display: 'flex',
             flexDirection: 'column',
-            gap: '12px'
+            gap: widgetSize === 'small' ? '8px' : '12px'
           }}>
             {sortedData.map((item, index) => (
               <div 
@@ -406,7 +437,7 @@ const StickyNotesWidget = () => {
                   display: 'flex',
                   justifyContent: 'space-between',
                   alignItems: 'center',
-                  padding: '12px',
+                  padding: widgetSize === 'small' ? '10px' : '12px',
                   borderRadius: '10px',
                   transition: 'all 0.3s ease',
                   background: isHovered === index 
@@ -427,14 +458,14 @@ const StickyNotesWidget = () => {
                 }}
               >
                 <span style={{ 
-                  fontSize: '0.95rem',
+                  fontSize: widgetSize === 'small' ? '0.9rem' : '0.95rem',
                   fontWeight: '500',
                   color: '#fff',
                   position: 'relative',
                   zIndex: 1
                 }}>{item.name}</span>
                 <span style={{ 
-                  fontSize: '0.95rem',
+                  fontSize: widgetSize === 'small' ? '0.9rem' : '0.95rem',
                   color: 'rgba(255,255,255,0.8)',
                   position: 'relative',
                   zIndex: 1
@@ -448,18 +479,18 @@ const StickyNotesWidget = () => {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          marginBottom: '24px',
-          padding: '12px',
+          marginBottom: widgetSize === 'small' ? '16px' : '24px',
+          padding: widgetSize === 'small' ? '10px' : '12px',
           borderRadius: '10px',
           background: 'rgba(255,255,255,0.03)',
           border: '1px solid rgba(255,255,255,0.05)'
         }}>
           <span style={{ 
-            fontSize: '0.9rem',
+            fontSize: widgetSize === 'small' ? '0.85rem' : '0.9rem',
             color: 'rgba(255,255,255,0.7)'
           }}>Total</span>
           <span style={{ 
-            fontSize: '1.2rem',
+            fontSize: widgetSize === 'small' ? '1rem' : '1.2rem',
             fontWeight: '600',
             color: '#fff',
             background: 'linear-gradient(90deg, #4f46e5, #a855f7)',
@@ -475,8 +506,8 @@ const StickyNotesWidget = () => {
             background: 'linear-gradient(90deg, #4f46e5, #7c3aed)',
             border: 'none',
             color: 'white',
-            padding: '14px',
-            fontSize: '0.95rem',
+            padding: widgetSize === 'small' ? '12px' : '14px',
+            fontSize: widgetSize === 'small' ? '0.9rem' : '0.95rem',
             borderRadius: '12px',
             cursor: 'pointer',
             display: 'flex',
@@ -510,8 +541,8 @@ const StickyNotesWidget = () => {
           }}
         >
           <svg 
-            width="18" 
-            height="18" 
+            width={widgetSize === 'small' ? '16' : '18'} 
+            height={widgetSize === 'small' ? '16' : '18'} 
             viewBox="0 0 24 24" 
             fill="none" 
             stroke="currentColor" 
